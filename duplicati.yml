@@ -1,0 +1,15 @@
+services:
+  duplicati:
+    image: lscr.io/linuxserver/duplicati:latest
+    container_name: duplicati
+    environment:
+      - PUID=0 #change
+      - PGID=0 #change
+      - TZ=Etc/UTC
+    volumes:
+      - /config:/config
+      - /backups:/backups
+      - /var/snap/docker/common:/source
+    ports:
+      - 1200:8200
+    restart: unless-stopped
