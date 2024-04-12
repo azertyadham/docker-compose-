@@ -1,0 +1,25 @@
+---
+
+# -- (Optional) When using a custom network
+networks:
+   frontend:
+#     -- (Optional) When attaching an external network
+     external: true
+services:
+  twingate_connector:
+    container_name: twingate_connector
+    image: twingate/connector:latest
+    environment:
+      - TWINGATE_NETWORK=your-twingate-network
+      - TWINGATE_ACCESS_TOKEN=  #your token from twingate
+      - TWINGATE_REFRESH_TOKEN= #your token from twingate
+      # -- (Optional) Change loglevel
+      # - TWINGATE_LOG_LEVEL=3
+      # -- (Optional) Add custom DNS Server
+      # - TWINGATE_DNS=10.20.0.1
+    sysctls:
+      net.ipv4.ping_group_range: "0 2147483647"
+    # -- (Optional) When using a custom network
+    networks:
+      - frontend
+    restart: unless-stopped
