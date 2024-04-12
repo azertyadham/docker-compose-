@@ -1,0 +1,26 @@
+version: '3'
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    ports:
+      - '80:80'
+      - '81:81'  #change if you want
+      - '443:443'
+    environment:
+      DB_MYSQL_HOST: "db"  #change
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "user" #change
+      DB_MYSQL_PASSWORD: "user" #change
+      DB_MYSQL_NAME: "user" #change
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+  db:
+    image: 'jc21/mariadb-aria:latest'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'user'  #change
+      MYSQL_DATABASE: 'user'  #change
+      MYSQL_USER: 'user'  #change
+      MYSQL_PASSWORD: 'user'   #change
+    volumes:
+      - ./mysql:/var/lib/mysql
