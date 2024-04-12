@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  nextcloud:
+    image: nextcloud:latest
+    container_name: nextcloud
+    restart: unless-stopped
+    ports:
+      - "180:80"  # Adjust port if needed
+    volumes:
+      - nextcloud-data:/var/www/html
+      - nextcloud-config:/var/www/nextcloud/config
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: nextcloud  #change
+      MYSQL_USER: admin  #change
+      MYSQL_PASSWORD: .... #change
+      MYSQL_ROOT_PASSWORD: ....  #change
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  # Redis (optional for performance optimization)
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+
+volumes:
+  nextcloud-data: {}
+  nextcloud-config: {}
+  mysql-data: {}
+  redis-data: {}
